@@ -4,17 +4,13 @@ import {
   IonLabel,
   IonList,
   IonListHeader,
-  IonTitle,
   IonChip,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
   IonSearchbar,
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/vue'
 
-function handleRefresh(event: CustomEvent) {
+function handleRefresh(event: any) {
   setTimeout(() => {
     // Any calls to load data go here
     event.target.complete();

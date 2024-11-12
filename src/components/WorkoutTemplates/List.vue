@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {IonCard, IonCardContent, IonCardHeader, IonSearchbar, IonCardSubtitle, IonCardTitle, IonChip, IonRefresher, IonRefresherContent,} from "@ionic/vue";
 
-function handleRefresh(event: CustomEvent) {
+function handleRefresh(event: any) {
   setTimeout(() => {
     // Any calls to load data go here
     event.target.complete();
