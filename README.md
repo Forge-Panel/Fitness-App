@@ -3,11 +3,15 @@
 </p>
 <h1 align="center">Forge-Fitness</h1>
 
-Forge-Fitness is an hybrid app made with Vue 3 + Ionic. You can log your workouts, step counter, vitals and other health data to your Forge dashboard.
+Forge-Fitness is a hybrid app made with Vue 3 + Ionic. You can log your workouts, step counter, vitals and other health data to your Forge dashboard.
+
+<br />
 
 ## Installation
 
-Forge Fitness is still in early development and not yet available for Android and IOS
+Forge Fitness is still in early development and not yet available for Android Play Store and iOS App Store.
+
+<br />
 
 ## Documentation
 
