@@ -3,7 +3,8 @@
 </p>
 <h1 align="center">Forge-Fitness</h1>
 
-Forge-Fitness is a hybrid app made with Vue 3 + Ionic. You can log your workouts, step counter, vitals and other health data to your Forge dashboard.
+<p align="center">Forge-Fitness is a module for your Forge installation. You can log your workouts, step counter, vitals and other health data to your Forge dashboard.</p>
+<p align="center"><i>This repository is for the hybrid app made with Ionic + Vue 3</i></p>
 
 <br />
 
@@ -26,7 +27,7 @@ Prerequisites
 - Node 18+ installed
 - NPM installed
 
-#### Setup
+#### Setup development
 1. Clone repository
 ```shell
 git clone https://github.com/Forge-Panel/Fitness-App.git
