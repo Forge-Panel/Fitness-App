@@ -1,23 +1,33 @@
 <script setup lang="ts">
 import {
+  IonChip,
   IonItem,
   IonLabel,
   IonList,
   IonListHeader,
-  IonChip,
-  IonSearchbar,
   IonRefresher,
   IonRefresherContent,
+  IonSearchbar,
 } from '@ionic/vue'
+import {onBeforeMount, ref} from "vue";
+import {useExerciseStore} from "@/stores/exercise";
+import {storeToRefs} from "pinia";
 
-function handleRefresh(event: any) {
-  setTimeout(() => {
-    // Any calls to load data go here
-    event.target.complete();
-  }, 2000);
+async function handleRefresh(event: any) {
+  await exerciseStore.fetchAllExercises();
+  
+  event.target.complete();
 }
 
+const exerciseStore = useExerciseStore()
 
+const { readExercisesGroupedByCategory, readExercisesGroupedByAlphabet, readExercisesGroupedByBodyPart } = storeToRefs(exerciseStore)
+
+onBeforeMount(async () => {
+  await exerciseStore.fetchAllExercises()
+})
+
+const sortBy = ref('alphabet')
 </script>
 
 <template>
@@ -26,28 +36,38 @@ function handleRefresh(event: any) {
   </ion-refresher>
   <ion-searchbar></ion-searchbar>
   <ion-label>Order by: </ion-label>
-  <ion-chip>Alphabet</ion-chip>
-  <ion-chip>Category</ion-chip>
-  <ion-chip>Method</ion-chip>
-  <ion-list :inset="true">
-    <ion-list-header>
-      <ion-label>Core</ion-label>
-    </ion-list-header>
-    <ion-item v-for="i in 10" :key="i">
-      <ion-label>Bench press</ion-label>
-    </ion-item>
-    <ion-list-header>
-      <ion-label>Arms</ion-label>
-    </ion-list-header>
-    <ion-item v-for="i in 10" :key="i">
-      <ion-label>Bench press</ion-label>
-    </ion-item>
-    <ion-list-header>
-      <ion-label>Shoulders</ion-label>
-    </ion-list-header>
-    <ion-item v-for="i in 10" :key="i">
-      <ion-label>Bench press</ion-label>
-    </ion-item>
+  <ion-chip :color="sortBy === 'alphabet' ? 'primary' : 'default'" @click="sortBy = 'alphabet'">Alphabet</ion-chip>
+  <ion-chip :color="sortBy === 'category' ? 'primary' : 'default'" @click="sortBy = 'category'">Category</ion-chip>
+  <ion-chip :color="sortBy === 'bodyPart' ? 'primary' : 'default'" @click="sortBy = 'bodyPart'">Body part</ion-chip>
+  <ion-list v-if="sortBy === 'alphabet'">
+    <template  v-for="(exercises, exerciseKey) in readExercisesGroupedByCategory" :key="exerciseKey">
+      <ion-list-header class="ion-padding-top" lines="inset">
+        <ion-label><h1>{{ exercises[0] }}</h1></ion-label>
+      </ion-list-header>
+      <ion-item v-for="exercise in exercises[1]" :key="exercise.id">
+        <ion-label>{{ exercise.name }}</ion-label>
+      </ion-item>
+    </template>
+  </ion-list>
+  <ion-list v-else-if="sortBy === 'category'">
+    <template v-for="(exercises, exerciseKey) in readExercisesGroupedByAlphabet" :key="exerciseKey">
+      <ion-list-header class="ion-padding-top" lines="inset">
+        <ion-label><h1>{{ exercises[0] }}</h1></ion-label>
+      </ion-list-header>
+      <ion-item v-for="exercise in exercises[1]" :key="exercise.id">
+        <ion-label>{{ exercise.name }}</ion-label>
+      </ion-item>
+    </template>
+  </ion-list>
+  <ion-list v-else-if="sortBy === 'bodyPart'">
+    <template v-for="(exercises, exerciseKey) in readExercisesGroupedByBodyPart" :key="exerciseKey">
+      <ion-list-header class="ion-padding-top" lines="inset">
+        <ion-label><h1>{{ exercises[0] }}</h1></ion-label>
+      </ion-list-header>
+      <ion-item v-for="exercise in exercises[1]" :key="exercise.id">
+        <ion-label>{{ exercise.name }}</ion-label>
+      </ion-item>
+    </template>
   </ion-list>
 </template>
 

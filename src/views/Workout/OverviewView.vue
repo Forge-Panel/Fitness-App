@@ -6,9 +6,11 @@ import {
   IonLabel,
   IonIcon,
   IonButton,
+  IonButtons,
   IonToolbar, IonPage,
-  IonSegment, IonSegmentView, IonSegmentContent, IonSegmentButton,
+  IonSegment, IonSegmentView, IonSegmentContent, IonSegmentButton, IonTitle,
 } from "@ionic/vue";
+import { ellipsisHorizontal, ellipsisVertical } from 'ionicons/icons';
 import WorkoutMostRecentList from "@/components/Workout/MostRecentList.vue";
 import WorkoutTemplatesList from "@/components/WorkoutTemplates/List.vue";
 import ExercisesList from "@/components/Exercises/List.vue";
@@ -17,6 +19,14 @@ import ExercisesList from "@/components/Exercises/List.vue";
 <template>
   <ion-page>
     <ion-header>
+      <ion-toolbar>
+        <ion-title>Workouts</ion-title>
+        <ion-buttons slot="primary">
+          <ion-button>
+            <ion-icon slot="icon-only" :ios="ellipsisHorizontal" :md="ellipsisVertical"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
       <ion-toolbar>
         <ion-segment>
           <ion-segment-button value="history" content-id="history">
@@ -30,7 +40,7 @@ import ExercisesList from "@/components/Exercises/List.vue";
           </ion-segment-button>
         </ion-segment>
       </ion-toolbar>
-    </ion-header>  
+    </ion-header>
       <ion-segment-view>
         <ion-segment-content id="history">
           <ion-content fullscreen class="ion-padding">
