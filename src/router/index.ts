@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'workouts/create',
-        component: () => import ('@/views/Workout/CreateView.vue'),
+        component: () => import ('@/views/Workout/EditView.vue'),
         meta: {
           iosIcon: barbellOutline,
           mdIcon: barbellSharp,
