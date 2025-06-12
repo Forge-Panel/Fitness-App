@@ -7,6 +7,7 @@ import {
   IonIcon,
   IonButton,
   IonButtons,
+  IonFab, IonFabButton,
   IonToolbar, IonPage,
   IonSegment, IonSegmentView, IonSegmentContent, IonSegmentButton, IonTitle,
 } from "@ionic/vue";
@@ -14,6 +15,9 @@ import { ellipsisHorizontal, ellipsisVertical } from 'ionicons/icons';
 import WorkoutMostRecentList from "@/components/Workout/MostRecentList.vue";
 import WorkoutTemplatesList from "@/components/WorkoutTemplates/List.vue";
 import ExercisesList from "@/components/Exercises/List.vue";
+import {ref} from "vue";
+
+const toolbar = ref('recents')
 </script>
 
 <template>
@@ -26,11 +30,12 @@ import ExercisesList from "@/components/Exercises/List.vue";
             <ion-icon slot="icon-only" :ios="ellipsisHorizontal" :md="ellipsisVertical"></ion-icon>
           </ion-button>
         </ion-buttons>
+        {{ toolbar }}
       </ion-toolbar>
       <ion-toolbar>
-        <ion-segment>
-          <ion-segment-button value="history" content-id="history">
-            <ion-label>History</ion-label>
+        <ion-segment v-model="toolbar">
+          <ion-segment-button value="recents" content-id="recents">
+            <ion-label>Recents</ion-label>
           </ion-segment-button>
           <ion-segment-button value="templates" content-id="templates">
             <ion-label>Templates</ion-label>
@@ -42,7 +47,7 @@ import ExercisesList from "@/components/Exercises/List.vue";
       </ion-toolbar>
     </ion-header>
       <ion-segment-view>
-        <ion-segment-content id="history">
+        <ion-segment-content id="recents">
           <ion-content fullscreen class="ion-padding">
             <WorkoutMostRecentList />
           </ion-content>
@@ -63,6 +68,12 @@ import ExercisesList from "@/components/Exercises/List.vue";
           </ion-content>
         </ion-segment-content>
       </ion-segment-view>
+    
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button router-link="/tabs/workouts/create">
+        <ion-icon :icon="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </ion-page>
 </template>
 

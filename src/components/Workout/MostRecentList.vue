@@ -43,7 +43,7 @@ import {IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, I
       <ion-chip>Core</ion-chip>
     </ion-card-content>
   </ion-card>
-  <ion-card>
+  <ion-card @press="console.log('long press')">
     <ion-card-header>
       <ion-card-title>Full body 1</ion-card-title>
       <ion-card-subtitle>Small description of the workout</ion-card-subtitle>
