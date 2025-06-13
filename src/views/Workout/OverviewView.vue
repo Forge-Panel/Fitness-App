@@ -30,7 +30,6 @@ const toolbar = ref('recents')
             <ion-icon slot="icon-only" :ios="ellipsisHorizontal" :md="ellipsisVertical"></ion-icon>
           </ion-button>
         </ion-buttons>
-        {{ toolbar }}
       </ion-toolbar>
       <ion-toolbar>
         <ion-segment v-model="toolbar">
