@@ -1,0 +1,26 @@
+{
+  "world": "the world!",
+  "exercise": {
+    "category": {
+      "BARBELL": "Barbell",
+      "DUMBBELL": "Dumbbell",
+      "KETTLEBELL": "Kettlebell",
+      "MACHINE": "Machine",
+      "CABLE": "Cable",
+      "WEIGHTED_BODYWEIGHT": "Weighted bodyweight",
+      "ASSISTED_BODY": "Assisted body",
+      "CARDIO": "Cardio",
+      "DURATION": "Duration"
+    },
+    "bodyPart": {
+      "CORE": "Core",
+      "ARMS": "Arms",
+      "BACK": "Back",
+      "CHEST": "Chest",
+      "LEGS": "Legs",
+      "SHOULDERS": "Shoulders",
+      "FULL_BODY": "Full body",
+      "OTHER": "Other"
+    }
+  }
+}

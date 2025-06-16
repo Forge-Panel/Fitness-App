@@ -19,6 +19,8 @@ import '@ionic/vue/css/text-alignment.css';
 import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
+
+import i18n from '@/i18n'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import ApolloClient from "@/ApolloClient";
 
@@ -45,6 +47,7 @@ const app = createApp({
 })
 
 app
+  .use(i18n)
   .use(IonicVue)
   .use(router)
 
