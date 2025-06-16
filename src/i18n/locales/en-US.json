@@ -1,6 +1,12 @@
 {
-  "world": "the world!",
   "exercise": {
+    "searchInputPlaceholder": "Type to search...",
+    "sortByLabel": "Sort by",
+    "sortBy": {
+      "name": "Name",
+      "category": "Category",
+      "bodyPart": "Body part"
+    },
     "category": {
       "BARBELL": "Barbell",
       "DUMBBELL": "Dumbbell",
