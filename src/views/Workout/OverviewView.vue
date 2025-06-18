@@ -55,7 +55,7 @@ const toolbar = ref('recents')
           <ion-content fullscreen class="ion-padding">
             <WorkoutTemplatesList />
             <br/>
-            <ion-button expand="full" router-link="/tabs/workouts/create">
+            <ion-button expand="full" router-link="/tabs/workouts/new">
               <ion-icon :icon="add" />
               <ion-label>Create template</ion-label>
             </ion-button>
@@ -69,7 +69,7 @@ const toolbar = ref('recents')
       </ion-segment-view>
     
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button router-link="/tabs/workouts/create">
+      <ion-fab-button router-link="/tabs/workouts/new">
         <ion-icon :icon="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>

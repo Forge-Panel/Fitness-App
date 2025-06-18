@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   IonItem,
+  IonButton,
   IonIcon,
   IonLabel,
   IonList,
@@ -97,11 +98,12 @@ const exercises = computed(() => {
   <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-icon @click="toggleFilter" :icon="funnel" size="large" />
-  <ion-searchbar v-show="isFilterOpen" v-model="filter" :placeholder="t('exercise.searchInputPlaceholder')"></ion-searchbar>
-  <ion-icon id="popover-button" @click="toggleSortBy" :icon="list" size="large" />
+  <ion-searchbar v-model="filter" :placeholder="t('exercise.searchInputPlaceholder')"></ion-searchbar>
+  <ion-button color="light"  shape="round"><ion-icon slot="icon-only" :icon="funnel" /></ion-button>
+  <ion-button color="light" id="popover-button" @click="toggleSortBy()" shape="round"><ion-icon slot="icon-only" :icon="list" /></ion-button>
   <ion-popover v-model:is-open="isSortByOpen" trigger="popover-button" :dismiss-on-select="true">
     <ion-list lines="none">
+      <ion-list-header>{{ t('exercise.sortByLabel') }}</ion-list-header>
       <ion-item button @click="sortBy = 'name'"><ion-text :color="sortBy === 'name' ? 'primary' : 'default'">{{ t('exercise.sortBy.name') }}</ion-text></ion-item>
       <ion-item button @click="sortBy = 'category'"><ion-text :color="sortBy === 'category' ? 'primary' : 'default'">{{ t('exercise.sortBy.category') }}</ion-text></ion-item>
       <ion-item button @click="sortBy = 'bodyPart'"><ion-text :color="sortBy === 'bodyPart' ? 'primary' : 'default'">{{ t('exercise.sortBy.bodyPart') }}</ion-text></ion-item>
