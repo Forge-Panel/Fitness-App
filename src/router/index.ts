@@ -13,7 +13,7 @@ declare module 'vue-router' {
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/overview'
+    redirect: '/tabs/dashboard'
   },
   {
     path: '/tabs/',
@@ -21,11 +21,11 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: 'overview',
+        redirect: 'dashboard',
       },
       {
-        path: 'overview',
-        component: () => import ('@/views/OverviewView.vue'),
+        path: 'dashboard',
+        component: () => import ('@/views/DashboardView.vue'),
         meta: {
           iosIcon: homeOutline,
           mdIcon: homeSharp,

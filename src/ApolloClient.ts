@@ -6,9 +6,6 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:8000/api/graphql',
 })
 
-// Cache implementation
-const cache = new InMemoryCache()
-
 // Create the apollo client
 export default new ApolloClient({
   link: httpLink,

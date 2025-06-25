@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   IonItem,
-  IonButton,
   IonIcon,
   IonLabel,
   IonList,
@@ -9,14 +8,14 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonSearchbar,
-  IonSkeletonText, toastController, IonText, IonPopover
+  IonSkeletonText, toastController
 } from '@ionic/vue'
 import ExerciseFilter from "@/components/Exercises/Filter.vue"
 import ExerciseOrderBy from "@/components/Exercises/OrderBy.vue"
 import {computed, ref} from "vue";
 import {useQuery} from "@vue/apollo-composable";
 import gql from 'graphql-tag'
-import {barbell, funnel} from 'ionicons/icons';
+import {barbell} from 'ionicons/icons';
 import { useI18n } from 'vue-i18n'
 import {ExerciseBodyPart, ExerciseCategory} from "@/lib/types/Exercise";
 const { t } = useI18n()
@@ -41,7 +40,7 @@ const queryOrderBy = ref<'name' | 'category' | 'bodyPart'>('name')
 const { result, loading, error, refetch, onError } = useQuery(gql`
       query getExercises ($search: String = null, $category: [ExerciseCategory!], $bodyPart: [ExerciseBodyPart!], $orderBy: [ExerciseOrderBy!]) {
         exercises {
-          all(count: 1000, search: $search, category: $category, bodyPart: $bodyPart, orderBy: $orderBy) {
+          all(count: 100, search: $search, category: $category, bodyPart: $bodyPart, orderBy: $orderBy) {
             id
             name
             category
@@ -54,27 +53,27 @@ const { result, loading, error, refetch, onError } = useQuery(gql`
   category: [] as ExerciseCategory[],
   bodyPart: [] as ExerciseBodyPart[],
   orderBy: [{field: 'NAME', order: 'ASC'}],
-})
+}, {keepPreviousResult: true})
 
-function updateVariables() {
+async function updateVariables() {
   const orderBy = [{field: 'NAME', order: 'ASC'}]
   
   if (queryOrderBy.value !== 'name') {
     orderBy.push({field: queryOrderBy.value === 'category' ? 'CATEGORY' : 'BODY_PART', order: 'ASC'})
   }
   
-  refetch({
+  await refetch({
     search: querySearch.value ? querySearch.value : null,
     category: [...queryCategory.value],
     bodyPart: [...queryBodyPart.value],
-    orderBy: orderBy,
+    orderBy: orderBy
   })
 }
 
-function clearSearch() {
+async function clearSearch() {
   querySearch.value = ''
   
-  updateVariables()
+  await updateVariables()
 }
 
 onError(() => {
@@ -85,9 +84,7 @@ async function handleRefresh(event: any) {
   await refetch()?.finally(() => {
     event.target.complete();
   })
-  
 }
-
 
 const exercises = computed(() => {
   if (!result.value?.exercises?.all) {
@@ -114,6 +111,8 @@ const exercises = computed(() => {
   // And to finish up, sort them on the grouped by key.
   return exerciseMap.entries().toArray().sort((a: [string, any], b: [string, any]) => a[0].localeCompare(b[0]))
 });
+
+const emits = defineEmits(['click-exercise'])
 </script>
 
 <template>
@@ -131,7 +130,7 @@ const exercises = computed(() => {
           <h1 v-else>{{ t(`exercise.${queryOrderBy}.${exerciseGroup[0]}`) }}</h1>
         </ion-label>
       </ion-list-header>
-      <ion-item v-for="exercise in exerciseGroup[1]" :key="exercise.id" @click="console.log" button>
+      <ion-item v-for="exercise in exerciseGroup[1]" :key="exercise.id" @click="emits('click-exercise', exercise)" button>
         <ion-icon aria-hidden="true" :icon="barbell" slot="start"></ion-icon>
         <ion-label>
           <h2>{{ exercise.name }}</h2>

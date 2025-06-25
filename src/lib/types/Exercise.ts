@@ -27,7 +27,7 @@ export type Exercise = {
   description: string;
   instructions: string;
   category: ExerciseCategory;
-  body_part: ExerciseBodyPart;
-  created_at: Date;
-  last_modified: Date;
+  bodyPart: ExerciseBodyPart;
+  createdAt: Date;
+  lastModified: Date;
 }

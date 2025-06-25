@@ -12,7 +12,7 @@ import {
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="Overview" href="/tabs/overview">
+        <ion-tab-button tab="Overview" href="/tabs/dashboard">
           <ion-icon :ios="homeOutline" :md="homeSharp" />
           <ion-label>Overview</ion-label>
         </ion-tab-button>

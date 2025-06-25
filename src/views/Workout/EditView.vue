@@ -9,7 +9,7 @@ import {
   IonButton
 } from "@ionic/vue";
 import {useRouter} from "vue-router";
-import WorkoutTemplateEdit from "@/components/WorkoutTemplates/Edit.vue"
+import WorkoutEdit from "@/components/Workout/Edit.vue"
 
 const router = useRouter()
 </script>
@@ -25,7 +25,7 @@ const router = useRouter()
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <WorkoutTemplateEdit />
+      <WorkoutEdit />
       <br />
       <ion-button expand="block" fill="outline" color="danger" @click="router.back()">Cancel</ion-button>
     </ion-content>
