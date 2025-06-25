@@ -11,19 +11,16 @@ import {
   IonSearchbar,
   IonSkeletonText, toastController, IonText, IonPopover
 } from '@ionic/vue'
+import ExerciseFilter from "@/components/Exercises/Filter.vue"
+import ExerciseOrderBy from "@/components/Exercises/OrderBy.vue"
 import {computed, ref} from "vue";
 import {useQuery} from "@vue/apollo-composable";
 import gql from 'graphql-tag'
-import { barbell, funnel, list } from 'ionicons/icons';
+import {barbell, funnel} from 'ionicons/icons';
 import { useI18n } from 'vue-i18n'
-import {useToggle} from "@vueuse/core";
+import {ExerciseBodyPart, ExerciseCategory} from "@/lib/types/Exercise";
 const { t } = useI18n()
 
-const filter = ref('')
-const [isFilterOpen, toggleFilter] = useToggle(false)
-
-const sortBy = ref('name')
-const [isSortByOpen, toggleSortBy] = useToggle(false)
 
 async function showToast(message: string) {
   const toast = await toastController.create({
@@ -35,10 +32,16 @@ async function showToast(message: string) {
   await toast.present();
 }
 
+// Query filters
+const querySearch = ref<string>('')
+const queryCategory = ref<ExerciseCategory[]>([])
+const queryBodyPart = ref<ExerciseBodyPart[]>([])
+const queryOrderBy = ref<'name' | 'category' | 'bodyPart'>('name')
+
 const { result, loading, error, refetch, onError } = useQuery(gql`
-      query getExercises {
+      query getExercises ($search: String = null, $category: [ExerciseCategory!], $bodyPart: [ExerciseBodyPart!], $orderBy: [ExerciseOrderBy!]) {
         exercises {
-          all(count: 1000) {
+          all(count: 1000, search: $search, category: $category, bodyPart: $bodyPart, orderBy: $orderBy) {
             id
             name
             category
@@ -46,7 +49,33 @@ const { result, loading, error, refetch, onError } = useQuery(gql`
           }
         }
       }
-    `)
+    `, {
+  search: null as string | null,
+  category: [] as ExerciseCategory[],
+  bodyPart: [] as ExerciseBodyPart[],
+  orderBy: [{field: 'NAME', order: 'ASC'}],
+})
+
+function updateVariables() {
+  const orderBy = [{field: 'NAME', order: 'ASC'}]
+  
+  if (queryOrderBy.value !== 'name') {
+    orderBy.push({field: queryOrderBy.value === 'category' ? 'CATEGORY' : 'BODY_PART', order: 'ASC'})
+  }
+  
+  refetch({
+    search: querySearch.value ? querySearch.value : null,
+    category: [...queryCategory.value],
+    bodyPart: [...queryBodyPart.value],
+    orderBy: orderBy,
+  })
+}
+
+function clearSearch() {
+  querySearch.value = ''
+  
+  updateVariables()
+}
 
 onError(() => {
   showToast("Error loading data.")
@@ -71,16 +100,9 @@ const exercises = computed(() => {
   
   // Filter, Sort based on name, then group them by the sortBy value,
   output
-    .filter(exercise => {
-      if (filter.value === '') return true
-      
-      return exercise.name.toLowerCase().includes(filter.value.toLowerCase()) ||
-        exercise.category.toLowerCase().includes(filter.value.toLowerCase()) ||
-        exercise.bodyPart.toLowerCase().includes(filter.value.toLowerCase())
-    })
     .sort((a, b) => a.name.localeCompare(b.name))
     .forEach(exercise => {
-      let groupKey = sortBy.value === 'name' ? exercise.name[0].toUpperCase() : exercise[sortBy.value]
+      let groupKey = queryOrderBy.value === 'name' ? exercise.name[0].toUpperCase() : exercise[queryOrderBy.value]
       
       if (!exerciseMap.has(groupKey)) {
         exerciseMap.set(groupKey, [])
@@ -98,23 +120,15 @@ const exercises = computed(() => {
   <ion-refresher slot="fixed" @ionRefresh="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-searchbar v-model="filter" :placeholder="t('exercise.searchInputPlaceholder')"></ion-searchbar>
-  <ion-button color="light"  shape="round"><ion-icon slot="icon-only" :icon="funnel" /></ion-button>
-  <ion-button color="light" id="popover-button" @click="toggleSortBy()" shape="round"><ion-icon slot="icon-only" :icon="list" /></ion-button>
-  <ion-popover v-model:is-open="isSortByOpen" trigger="popover-button" :dismiss-on-select="true">
-    <ion-list lines="none">
-      <ion-list-header>{{ t('exercise.sortByLabel') }}</ion-list-header>
-      <ion-item button @click="sortBy = 'name'"><ion-text :color="sortBy === 'name' ? 'primary' : 'default'">{{ t('exercise.sortBy.name') }}</ion-text></ion-item>
-      <ion-item button @click="sortBy = 'category'"><ion-text :color="sortBy === 'category' ? 'primary' : 'default'">{{ t('exercise.sortBy.category') }}</ion-text></ion-item>
-      <ion-item button @click="sortBy = 'bodyPart'"><ion-text :color="sortBy === 'bodyPart' ? 'primary' : 'default'">{{ t('exercise.sortBy.bodyPart') }}</ion-text></ion-item>
-    </ion-list>
-  </ion-popover>
+  <ion-searchbar v-model="querySearch" @ionChange="updateVariables" @ionClear="clearSearch" :placeholder="t('exercise.searchInputPlaceholder')"></ion-searchbar>
+  <ExerciseFilter v-model:category="queryCategory" v-model:bodyPart="queryBodyPart" @update="updateVariables" />
+  <ExerciseOrderBy v-model="queryOrderBy" @update="updateVariables" />
   <template v-if="exercises && exercises.length > 0">
     <ion-list v-for="exerciseGroup in exercises" :key="exerciseGroup[0]" class="ion-margin-top" lines="none">
       <ion-list-header>
         <ion-label>
-          <h1 v-if="sortBy === 'name'">{{ exerciseGroup[0] }}</h1>
-          <h1 v-else>{{ t(`exercise.${sortBy}.${exerciseGroup[0]}`) }}</h1>
+          <h1 v-if="queryOrderBy === 'name'">{{ exerciseGroup[0] }}</h1>
+          <h1 v-else>{{ t(`exercise.${queryOrderBy}.${exerciseGroup[0]}`) }}</h1>
         </ion-label>
       </ion-list-header>
       <ion-item v-for="exercise in exerciseGroup[1]" :key="exercise.id" @click="console.log" button>

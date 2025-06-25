@@ -12,5 +12,11 @@ const cache = new InMemoryCache()
 // Create the apollo client
 export default new ApolloClient({
   link: httpLink,
-  cache,
+  cache: new InMemoryCache({
+    typePolicies: {
+      ExerciseType: {
+        keyFields: ["id"],
+      }
+    }
+  }),
 })
