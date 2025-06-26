@@ -63,7 +63,7 @@ const toolbar = ref('recents')
         </ion-segment-content>
         <ion-segment-content id="exercises">
           <ion-content fullscreen class="ion-padding">
-            <ExercisesList />
+            <ExercisesList v-if="toolbar === 'exercises'" />
           </ion-content>
         </ion-segment-content>
       </ion-segment-view>

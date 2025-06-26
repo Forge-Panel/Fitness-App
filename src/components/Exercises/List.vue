@@ -156,7 +156,3 @@ const emits = defineEmits(['click-exercise'])
   </template>
   <ion-item v-else lines="none" class="ion-margin-top">No exercises found.</ion-item>
 </template>
-
-<style scoped>
-
-</style>

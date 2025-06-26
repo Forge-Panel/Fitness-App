@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import { homeOutline, homeSharp, barbellOutline, barbellSharp, personOutline, personSharp, pulseOutline, pulseSharp, footstepsOutline, footstepsSharp } from 'ionicons/icons';
-import Tabs from "@/components/Tabs.vue";
+import RootOutlet from "@/views/RootOutlet.vue";
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/tabs/',
-    component: Tabs,
+    component: RootOutlet,
     children: [
       {
         path: '',

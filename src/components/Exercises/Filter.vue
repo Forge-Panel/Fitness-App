@@ -49,7 +49,3 @@ const emits = defineEmits(['update'])
     </ion-content>
   </ion-popover>
 </template>
-
-<style scoped>
-
-</style>

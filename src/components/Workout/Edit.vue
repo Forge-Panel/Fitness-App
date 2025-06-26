@@ -112,9 +112,3 @@ function removeExercise(index: number) {
   </ion-modal>
   <ion-button expand="block" @click="toggleExerciseModal()">Add exercise</ion-button>
 </template>
-
-<style>
-  ion-item  {
-    background-color: red;
-  }
-</style>

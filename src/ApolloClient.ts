@@ -1,12 +1,9 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 
-// HTTP connection to the API
 const httpLink = createHttpLink({
-  // You should use an absolute URL here
-  uri: 'http://localhost:8000/api/graphql',
+  uri: 'http://localhost:8001/api/app/graphql',
 })
 
-// Create the apollo client
 export default new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache({
