@@ -16,6 +16,10 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/tabs/dashboard'
   },
   {
+    path: '/settings',
+    component: () => import ('@/views/SettingsView.vue'),
+  },
+  {
     path: '/tabs/',
     component: RootOutlet,
     children: [
@@ -32,14 +36,6 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
-        path: 'steps',
-        component: () => import ('@/views/StepsView.vue'),
-        meta: {
-          iosIcon: footstepsOutline,
-          mdIcon: footstepsSharp,
-        }
-      },
-      {
         path: 'workouts',
         component: () => import ('@/views/Workout/OverviewView.vue'),
         meta: {
@@ -53,14 +49,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           iosIcon: barbellOutline,
           mdIcon: barbellSharp,
-        }
-      },
-      {
-        path: 'vitals',
-        component: () => import ('@/views/VitalsView.vue'),
-        meta: {
-          iosIcon: pulseOutline,
-          mdIcon: pulseSharp,
         }
       },
       {

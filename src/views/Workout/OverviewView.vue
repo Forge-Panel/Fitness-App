@@ -26,7 +26,7 @@ const toolbar = ref('recents')
       <ion-toolbar>
         <ion-title>Workouts</ion-title>
         <ion-buttons slot="primary">
-          <ion-button>
+          <ion-button router-link="/settings">
             <ion-icon slot="icon-only" :ios="ellipsisHorizontal" :md="ellipsisVertical"></ion-icon>
           </ion-button>
         </ion-buttons>
