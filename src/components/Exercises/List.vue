@@ -18,6 +18,7 @@ import gql from 'graphql-tag'
 import {barbell} from 'ionicons/icons';
 import { useI18n } from 'vue-i18n'
 import {ExerciseBodyPart, ExerciseCategory} from "@/lib/types/Exercise";
+import {useStorage} from "@vueuse/core";
 const { t } = useI18n()
 
 
@@ -35,7 +36,9 @@ async function showToast(message: string) {
 const querySearch = ref<string>('')
 const queryCategory = ref<ExerciseCategory[]>([])
 const queryBodyPart = ref<ExerciseBodyPart[]>([])
-const queryOrderBy = ref<'name' | 'category' | 'bodyPart'>('name')
+const queryOrderBy = useStorage<'name' | 'category' | 'bodyPart'>('exerciseOrderBy', 'name')
+
+
 
 const { result, loading, error, refetch, onError } = useQuery(gql`
       query getExercises ($search: String = null, $category: [ExerciseCategory!], $bodyPart: [ExerciseBodyPart!], $orderBy: [ExerciseOrderBy!]) {

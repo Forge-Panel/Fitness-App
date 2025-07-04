@@ -20,6 +20,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('@/views/SettingsView.vue'),
   },
   {
+    path: '/workouts/new',
+    component: () => import ('@/views/Workout/EditView.vue'),
+    meta: {
+      iosIcon: barbellOutline,
+      mdIcon: barbellSharp,
+    }
+  },
+  {
     path: '/tabs/',
     component: RootOutlet,
     children: [
@@ -38,14 +46,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'workouts',
         component: () => import ('@/views/Workout/OverviewView.vue'),
-        meta: {
-          iosIcon: barbellOutline,
-          mdIcon: barbellSharp,
-        }
-      },
-      {
-        path: 'workouts/new',
-        component: () => import ('@/views/Workout/EditView.vue'),
         meta: {
           iosIcon: barbellOutline,
           mdIcon: barbellSharp,
